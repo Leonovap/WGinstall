@@ -25,7 +25,7 @@ if which wg ; then
   fi
 fi
 
-
+# SOME CHANGES
 
 # Package upgrade
 if ! sudo apt update && sudo apt upgrade -y
@@ -35,7 +35,7 @@ fi
 
 # install wireguard
 sudo apt install wireguard
-echo "Wireguard was successfylly installed!"
+echo "Wireguard was successfully installed!"
 
 
 
