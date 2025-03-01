@@ -50,6 +50,8 @@ echo "Wireguard was successfully installed!"
 
 
 # Wireguard Configuration
+echo "Configuring WireGuard..."
+
 
 # Open ipv4 forwarding
 sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
