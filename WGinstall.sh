@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # Root cheking
 if [ "$EUID" -ne 0 ]
   then echo "Please run as root (sudo bash WGinstall.sh)"
@@ -18,8 +19,8 @@ if which wg ; then
    rm -rf /etc/wireguard
    sed -i 's/net.ipv4.ip_forward=1/#net.ipv4.ip_forward=1/g' /etc/sysctl.conf
    sudo sysctl -p 
-   echo "Wireguard packeges was deleted!" 
-   echo "Please check and delete if you need keys and configs directorys!"
+   echo "WireGuard has been removed!" 
+   echo "Please check and delete any remaining keys or config directories manually if needed.!"
    exit 0
   elif [ "$input" = "no" ] ; then 
    echo "Exit script"
@@ -40,14 +41,18 @@ exit 1
 fi
 
 
+
 # install wireguard
 sudo apt install wireguard
 echo "Wireguard was successfully installed!"
+
+
+# Wireguard Configuration
+
 # Open ipv4 forwarding
 sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
 sudo sysctl -p 
 # Public and private key generating
 wg genkey | tee /etc/wireguard/server_privatekey | wg pubkey > /etc/wireguard/server_publickey
-
 
 
