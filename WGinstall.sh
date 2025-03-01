@@ -35,14 +35,16 @@ fi
 
 
 # Package upgrade
+echo "Updating system packages..."
 if ! sudo apt update && sudo apt upgrade -y
-   then echo "System can't update"
+   then echo "System update failed."
 exit 1
 fi
 
 
 
 # install wireguard
+echo "Installing WireGuard..."
 sudo apt install wireguard
 echo "Wireguard was successfully installed!"
 
