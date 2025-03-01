@@ -10,9 +10,14 @@ fi
 # Already installed wireguard cheked and delete
 if which wg ; then 
   echo "wireguard is already installed, do you want to delet it?(yes/no)"
-  read input 
+  read -r input 
+  input=$(echo "$input" | tr '[:upper:]' '[:lower:]')
+  
   if [ "$input" = "yes" ] ; then 
    sudo apt purge -y --auto-remove wireguard wireguard-tools
+   rm -rf /etc/wireguard
+   sed -i 's/net.ipv4.ip_forward=1/#net.ipv4.ip_forward=1/g' /etc/sysctl.conf
+   sudo sysctl -p 
    echo "Wireguard packeges was deleted!" 
    echo "Please check and delete if you need keys and configs directorys!"
    exit 0
@@ -23,9 +28,10 @@ if which wg ; then
    echo "Invalid input, please enter yes or no! "
    exit 1
   fi
+
 fi
 
-# SOME CHANGES
+
 
 # Package upgrade
 if ! sudo apt update && sudo apt upgrade -y
@@ -33,9 +39,15 @@ if ! sudo apt update && sudo apt upgrade -y
 exit 1
 fi
 
+
 # install wireguard
 sudo apt install wireguard
 echo "Wireguard was successfully installed!"
+# Open ipv4 forwarding
+sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
+sudo sysctl -p 
+# Public and private key generating
+wg genkey | tee /etc/wireguard/server_privatekey | wg pubkey > /etc/wireguard/server_publickey
 
 
 
