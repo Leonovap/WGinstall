@@ -95,6 +95,8 @@ SaveConfig = true
 PostUp = iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 PostDown = iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
 END
+systemctl enable wg-quick@wg0.service
+systemctl start wg-quick@wg0.service
 echo -e "WireGuard is installed and configurated!\nNow you can generate clients!"
 }
 
@@ -102,6 +104,8 @@ echo -e "WireGuard is installed and configurated!\nNow you can generate clients!
 delete_wg(){
 
    echo "Removing WireGuard..."
+   systemctl stop wg-quick@wg0.service
+   systemctl disable wg-quick@wg0.service
    sudo apt purge -y --auto-remove wireguard wireguard-tools
    rm -rf /etc/wireguard/keys
    rm -rf /etc/wireguard
