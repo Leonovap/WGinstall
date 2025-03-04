@@ -117,6 +117,23 @@ delete_wg(){
   exit 0
 }
 
+generate_peer(){
+#Name entering
+read -p "Enter client name: " CLIENT_NAME
+#Keys generating
+wg genkey | tee /etc/wireguard/keys/"{$CLIENT_NAME}_privkey" | wg pubkey | tee /etc/wireguard/keys/"{$CLIENT_NAME}_pubkey" 
+
+#Server config editing
+cat <<END | sudo tee -a /etc/wireguard/wg0.conf
+[Peer]
+# $CLIENT_NAME
+Key = "{$CLIENT_NAME}_pubkey" 
+AllowedIPs = 
+END
+#To find the max ip addr grep -e  "192.168.1.*" testfile.txt | tail -n 1 | cat > odpowedz.txt
+# Need to fix this algoritm with sort -t and regular expression to find all ip adresses
+
+}
 
 
 
