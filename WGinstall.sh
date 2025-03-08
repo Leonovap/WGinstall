@@ -11,7 +11,7 @@ fi
 menu(){                 
 while true; do
 
-echo -e "*\n*\n*"
+echo -e "-\n-\n-\n-"
 echo -e "What do you want to do?\n(Enter just an option number(1..4))"
 echo -e "1. Install WireGuard Server\n2. Uninstall WireGuard Server\n3. Generate new peer(client)\n4. Exit script"
 read -p "Enter your choice: " MENU_PICK
