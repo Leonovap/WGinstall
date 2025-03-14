@@ -5,7 +5,7 @@ while true; do
 
 echo -e "Welcome to simple SSH key manager!"
 echo -e "What do you want to do?\n(Enter just an option number"
-echo -e "1. Generate SSH KEY\n2. ADD KEY TO YOUR SERVER\n3. EXIT"
+echo -e "1. Generate SSH KEY\n2. ADD KEY TO YOUR SERVER\n3. ADD SSH ALIAS\n4. EXIT"
 read -p "Enter your choice: " MENU_PICK
 
 case "$MENU_PICK" in  
@@ -17,8 +17,6 @@ case "$MENU_PICK" in
  esac
 done
 }
-
-
 
 
 # FAST GENERATE KEY 
