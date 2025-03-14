@@ -11,7 +11,7 @@ read -p "Enter your choice: " MENU_PICK
 case "$MENU_PICK" in  
  1) server_key_generate ;;
  2) add_key_to_server ;;
- 3) add_server_alias
+ 3) add_server_alias ;;
  4) echo "Exiting... ^_^"; exit 0 ;;
  *) echo "Invalid option, please try again!" ;;
  esac
@@ -30,7 +30,6 @@ fi
 #GENERATING KEY
 read -p "ENTER YOUR EMAIL" EMAIL
 ssh-keygen -t ed25519 -C "$EMAIL" -f ~/.ssh/id_ed25519 -N ""
-
 }
 
 
@@ -51,10 +50,9 @@ fi
 cat $HOME/.ssh/id_ed25519.pub | ssh ${SERVER_LOGIN}@${SERVER_IP} "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys"
 # SUCCESS
 echo "Public key successfully added to the server!"
-
-
 }
  
+
 
 add_server_alias(){
 
