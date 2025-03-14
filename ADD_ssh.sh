@@ -11,7 +11,8 @@ read -p "Enter your choice: " MENU_PICK
 case "$MENU_PICK" in  
  1) server_key_generate ;;
  2) add_key_to_server ;;
- 3) echo "Exiting... ^_^"; exit 0 ;;
+ 3) add_server_alias
+ 4) echo "Exiting... ^_^"; exit 0 ;;
  *) echo "Invalid option, please try again!" ;;
  esac
 done
@@ -35,9 +36,6 @@ ssh-keygen -t ed25519 -C "$EMAIL" -f ~/.ssh/id_ed25519 -N ""
 }
 
 
-
-
-
 # ADD KEY TO SERVER FUNCTION
 add_key_to_server(){
 
@@ -59,4 +57,20 @@ echo "Public key successfully added to the server!"
 
 }
  
+
+add_server_alias(){
+
+read -p "Enter the server IP... " SERVER_IP
+read -p "Enter the server LOGIN NAME... " SERVER_LOGIN
+read -p "Enter the server ALIAS NAME... " ALIAS_NAME
+
+cat <<END | sudo tee -a $HOME/.ssh/config > /dev/null
+Host $ALIAS_NAME
+    HostName $SERVER_IP
+    User $SERVER_LOGIN
+    IdentityFile ~/.ssh/id_ed25519
+END
+
+}
+
 menu;
