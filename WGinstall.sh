@@ -100,7 +100,6 @@ cat <<END | sudo tee /etc/wireguard/wg0.conf
 PrivateKey = $SERVER_PRIVATE_KEY
 Address = $SERVER_IP
 ListenPort = $SERVER_PORT
-SaveConfig = true
 PostUp = iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 PostDown = iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
 END
