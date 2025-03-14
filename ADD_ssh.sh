@@ -17,22 +17,46 @@ case "$MENU_PICK" in
 done
 }
 
+
+
+
 # FAST GENERATE KEY 
 server_key_generate(){
 
+# IS THE KEY EXISTS?
+if [  -f $HOME/.ssh/id_ed25519.pub ]; then
+        echo "Public key is already exists in $HOME/.ssh/id_ed25519.pub"
+        exit 1
+fi
+#GENERATING KEY
 read -p "ENTER YOUR EMAIL" EMAIL
-ssh-keygen -t ed25519 -C "$EMAIL"
+ssh-keygen -t ed25519 -C "$EMAIL" -f ~/.ssh/id_ed25519 -N ""
 
 }
+
+
 
 
 
 # ADD KEY TO SERVER FUNCTION
 add_key_to_server(){
 
+# FIND USERNAME
+
+# GET SERVER IP AND SERVER USERNAME
 read -p "Enter the server IP... " SERVER_IP
 read -p "Enter the server LOGIN NAME... " SERVER_LOGIN
-cat ~/.ssh/id_ed25519.pub | ssh ${SERVER_IP}@${SERVER_USER} "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys"
-exit 0
+#TRYING TO FIND SSH KEY
+if [ ! -f $HOME/.ssh/id_ed25519.pub ]; then
+        echo "Public key not found at $HOME/.ssh/id_ed25519.pub"
+        exit 1
+fi
+# COPY KEY TO SERVER
+cat $HOME/.ssh/id_ed25519.pub | ssh ${SERVER_LOGIN}@${SERVER_IP} "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys"
+# SUCCESS
+echo "Public key successfully added to the server!"
+
 
 }
+ 
+menu;
