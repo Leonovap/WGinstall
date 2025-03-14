@@ -5,6 +5,11 @@ if [ "$EUID" -ne 0 ]
   then echo "Please run as root (sudo bash WGinstall.sh)"
   exit
 fi
+
+
+
+
+
 # FUNCTIONS
 
 # MENU FUNCTION
@@ -17,7 +22,7 @@ echo -e "1. Install WireGuard Server\n2. Uninstall WireGuard Server\n3. Generate
 read -p "Enter your choice: " MENU_PICK
 
 case "$MENU_PICK" in  
- 1) install_wg ;;
+ 1) install_wg_deb ;;
  2) delete_wg ;;
  3) generate_peer;;
  4) echo "Exiting... ^_^"; exit 0 ;;
@@ -30,7 +35,7 @@ done
 
 
 # INSTALLATION
-install_wg(){
+install_wg_deb(){
 # Already installed wireguard cheked and delete
  if which wg ; then 
   echo "wireguard is already installed, do you want to delet it?(yes/no)"
