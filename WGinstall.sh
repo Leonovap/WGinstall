@@ -92,7 +92,7 @@ if [ -z "$SERVER_PORT" ]; then
    SERVER_PORT="51820"
 fi
 
-SERVER_IP="10.8.0.1/24"
+SERVER_IP="10.11.12.1/24"
 # Creating WireGuard server config wg0.conf
 echo " Creating WireGuard server configuration... "
 cat <<END | sudo tee /etc/wireguard/wg0.conf
@@ -167,16 +167,16 @@ echo "Editing wg0.conf configuration file... "
 cat <<END | sudo tee -a /etc/wireguard/wg0.conf
 [Peer]
 PublicKey = $CLIENTS_PUBKEY
-AllowedIPs = $PEER_IP
+AllowedIPs = $PEER_IP/24
 END
 
 # GENERATING PEER CONFIGURATION FILE
 echo "Generating ${CLIENT_NAME}'s configuration file... "
 
-cat <<END | sudo tee -a /etc/wireguard/"$CLIENT_NAME.conf"
+cat <<END | sudo tee -a /etc/wireguard/Clients/"$CLIENT_NAME.conf"
 [Interface]
 PrivateKey = $CLIENTS_PRIVKEY
-Address = $PEER_IP
+Address = $PEER_IP/32
 DNS = 8.8.8.8
 [Peer]
 PublicKey = $SERVER_PUBLIC_KEY
