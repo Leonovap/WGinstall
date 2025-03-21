@@ -180,7 +180,9 @@ Address = $PEER_IP
 DNS = 8.8.8.8
 [Peer]
 PublicKey = $SERVER_PUBLIC_KEY
-Endpoint = $SERVER_IP:$SERVER_PORT
+Endpoint = $((hostname -I |tr ' ' '\n' | \
+  grep -vE '^(10|172\.1[6-9]|172\.2[0-9]|172\.3[0-1]|192\.168|127)' | \
+  head -n 1 )):$SERVER_PORT
 AllowedIPs = 0.0.0.0/0
 PersistentKeepalive = 20
 END
