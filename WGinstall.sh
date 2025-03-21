@@ -150,7 +150,7 @@ LAST_PEER_IP=$(sudo grep "AllowedIPs " /etc/wireguard/wg0.conf | awk '/[0-9]+\.[
 | sort -V | tail -n 1 | awk -F '.' '{print $1"."$2"."$3"."($4+1)}')
 CLIENTS_PUBKEY=$(cat /etc/wireguard/keys/"${CLIENT_NAME}_pubkey")
 CLIENTS_PRIVKEY=$(cat /etc/wireguard/keys/"${CLIENT_NAME}_privkey")
-
+ENDPOINT=$(hostname -I | tr ' ' '\n' | grep -vE '^(10|172\.1[6-9]|172\.2[0-9]|172\.3[0-1]|192\.168|127)' | head -n 1)
 
 # GENERATING NEW IP FOR THE NEW PEER
 echo "Generating new IP address..."
@@ -180,9 +180,7 @@ Address = $PEER_IP
 DNS = 8.8.8.8
 [Peer]
 PublicKey = $SERVER_PUBLIC_KEY
-Endpoint = $((hostname -I |tr ' ' '\n' | \
-  grep -vE '^(10|172\.1[6-9]|172\.2[0-9]|172\.3[0-1]|192\.168|127)' | \
-  head -n 1 )):$SERVER_PORT
+Endpoint = $ENDPOINT:$SERVER_PORT
 AllowedIPs = 0.0.0.0/0
 PersistentKeepalive = 20
 END
